@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace TheCodeCamp.Data
 {
-  public class Camp
+    public class Camp
   {
     public int CampId { get; set; }
     public string Name { get; set; }
