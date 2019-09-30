@@ -9,23 +9,19 @@ namespace TheCodeCamp.Data
 {
     public class CampMappingProfile : Profile
     {
-        //public CampMappingProfile()
-        //{
-        //    CreateMap<Camp, CampModel>()
-        //        .ForMember(c => c.Venue, opt => opt.MapFrom(m => m.Location.VenueName))
-        //        .ReverseMap();
-        //}
-
         public CampMappingProfile()
         {
             CreateMap <Camp, CampModel>()
               .ForMember(c => c.Venue, opt => opt.MapFrom(m => m.Location.VenueName))
               .ReverseMap();
 
-            // When mapping Camps with Talks, AutoMapper would automatically find TalkModel
-            // and do the mapping.  However, that is not the case anymore and we need to do below.
+            // AutoMapper will try to infer other reffered types when possible.  But that will 
+            // not always work and eventually you will need to create them and revert them as well.
             CreateMap <Talk, TalkModel>()
-              .ReverseMap();
+              .ReverseMap()
+              // dont override Speaker and Camp when going from TalkModel to Talk
+              .ForMember(t => t.Speaker, opt => opt.Ignore())
+              .ForMember(t => t.Camp, opt => opt.Ignore());
 
             CreateMap <Speaker, SpeakerModel>()
               .ReverseMap();
